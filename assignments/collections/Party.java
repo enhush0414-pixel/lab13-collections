@@ -1,32 +1,42 @@
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
 
 public class Party {
+    private List<Character> members = new ArrayList<>();
 
-    // TODO: private List<Character> members
-    // - new ArrayList<>() -ээр initialize хий
+    public void add(Character c) { members.add(c); }
+    public void remove(Character c) { members.remove(c); }
+    public int size() { return members.size(); }
 
-    // TODO: add(Character c) → void
-    // - members.add(c)
+    public List<Character> getAlive() {
+        List<Character> survivors = new ArrayList<>();
+        for (Character c : members) {
+            if (c.isAlive()) survivors.add(c);
+        }
+        return survivors;
+    }
 
-    // TODO: remove(Character c) → void
-    // - members.remove(c)
+    /**
+     * Stretch: HP-ээр нь буурах эрэмбээр ангилсан жагсаалт буцаах.
+     */
+    public List<Character> sortByHp() {
+        // members-ийг өөрчлөхгүйн тулд хуулбар үүсгэж байна
+        List<Character> sortedList = new ArrayList<>(this.members);
 
-    // TODO: size() → int
-    // - members.size()
+        // Comparator ашиглан b.hp - a.hp (Буурах эрэмбэ)
+        sortedList.sort((hero1, hero2) -> Integer.compare(hero2.getHp(), hero1.getHp()));
 
-    // TODO: getAlive() → List<Character>
-    // - зөвхөн c.isAlive() == true баатруудыг агуулсан шинэ List буцаах
+        return sortedList;
+    }
 
-    // ─────── 🟡 Stretch (30 оноо) ───────
-
-    // TODO: sortByHp() → List<Character>
-    // - members-ын хуулбар дээр hp-ээр буурах эрэмбээр sort хийнэ
-    // - Comparator эсвэл lambda ашиглана
-    // - жишээ: sorted.sort((a, b) -> Integer.compare(b.getHp(), a.getHp()))
-
-    // ─────── 🔴 Bonus (10 оноо) ───────
-
-    // TODO: getAliveStream() → long
-    // - members.stream().filter(Character::isAlive).count()
+    /**
+     * Bonus: Stream API ашиглан амьд гишүүдийг тоолох
+     */
+    public long getAliveStream() {
+        return members.stream()
+                .filter(Character::isAlive)
+                .count();
+    }
 }
